@@ -36,7 +36,7 @@ from user_messages.models import UserThread
 
 from account import signals
 from account.forms import SignupForm
-from account.views import SignupView, InviteUserView
+from account.views import SignupView #, InviteUserView
 from account.utils import default_redirect
 from account.models import SignupCode
 
@@ -251,7 +251,8 @@ def inbox(request):
     return HttpResponseRedirect(reverse('messages_inbox'))
 
 
-class InviteUser(InviteUserView):
+class InviteUser(SignupView):
+    pass
     """
 
     """

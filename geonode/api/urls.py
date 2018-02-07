@@ -24,13 +24,13 @@ from .api import TagResource, TopicCategoryResource, ProfileResource, \
     GroupResource, RegionResource, OwnersResource, UserOrganizationList, LayerUpload, MakeFeatured, MesseagesUnread, \
         UndockResources, FavoriteUnfavoriteResources, OsmOgrInfo, LayerSourceServer, LayersWithFavoriteAndDoocked, \
     MapsWithFavoriteAndDoocked, GroupsWithFavoriteAndDoocked, DocumentsWithFavoriteAndDoocked, UserNotifications, \
-    ViewNotificationTimeSaving
+    ViewNotificationTimeSaving, LayerDownloadCountApi, LayerPermissionPreviewApi
+
 
 from .resourcebase_api import LayerResource, MapResource, DocumentResource, \
     ResourceBaseResource, FeaturedResourceBaseResource, LayerResourceWithFavorite, MapResourceWithFavorite, \
     DocumentResourceWithFavorite, GroupsResourceWithFavorite, GroupActivity, WorkSpaceLayerApi, WorkSpaceDocumentApi, \
-    WorkSpaceMapApi
-
+    WorkSpaceMapApi, LayerAttributeApi, AttributeApi, LayerAttributeApiPublic
 
 
 api = Api(api_name='api')
@@ -81,3 +81,13 @@ api.register(ViewNotificationTimeSaving())
 api.register(WorkSpaceLayerApi())
 api.register(WorkSpaceMapApi())
 api.register(WorkSpaceDocumentApi())
+
+
+api.register(LayerDownloadCountApi())
+
+api.register(LayerPermissionPreviewApi())
+api.register(LayerAttributeApi())
+
+api.register(AttributeApi())
+
+api.register(LayerAttributeApiPublic())

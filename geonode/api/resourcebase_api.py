@@ -1039,6 +1039,26 @@ class AttributeApi(ModelResource):
         fields = ['attribute', 'attribute_type', 'id']       
 
 
+
+class LayerAttributeApiPublic(ModelResource):
+    """
+    in this public api user will send layer id
+    and it returns permitted attributes
+    no authentications needed for this api
+    """
+    class Meta:
+        queryset = Attribute.objects.all()
+        resource_name = 'layer-attributes-public'
+        allowed_method = 'get'
+        fields = ['attribute', 'attribute_type', 'id']
+
+    def get_object_list(self, request):
+        layer_id = request.GET.get('layer_id')
+        layer = Layer.objects.get(id=layer_id)
+        return Attribute.objects.filter(layer=layer, is_permitted=True)
+
+
+
 class LayerAttributeApi(ModelResource):
     
     attributes = fields.ToManyField('geonode.api.resourcebase_api.AttributeApi', 'attributes', full=True, null=True)

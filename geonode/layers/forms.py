@@ -160,9 +160,7 @@ class LayerUploadForm(forms.Form):
         file = self.cleaned_data['base_file']
         filename = file.name
         extension = os.path.splitext(filename)[1]
-        file_type = None
         if extension.lower() == '.osm':
-            file_type = ".osm"
             osm_layer_type = self.cleaned_data['osm_layer_type']
             tempdir_osm = tempfile.mkdtemp()  # temporary directory for uploading .osm file
             temporary_file = open('%s/%s' % (tempdir_osm, filename), 'a+')
@@ -186,7 +184,6 @@ class LayerUploadForm(forms.Form):
                                             '{1}'.format(osm_layer_type, response))
 
         elif extension.lower() == '.csv':
-            file_type = ".csv"
             the_geom = self.cleaned_data['the_geom']
             longitude = self.cleaned_data['longitude'] #longitude
             lattitude = self.cleaned_data['lattitude'] #latitude
@@ -252,11 +249,9 @@ class LayerUploadForm(forms.Form):
 
 
         elif zipfile.is_zipfile(self.cleaned_data['base_file']):
-            file_type = ".zip"
             absolute_base_file = unzip_file(self.cleaned_data['base_file'], '.shp', tempdir=tempdir)
 
         else:
-            file_type = "shape files"
             for field in self.spatial_files:
                 f = self.cleaned_data[field]
                 if f is not None:
@@ -266,7 +261,23 @@ class LayerUploadForm(forms.Form):
                             writable.write(c)
             absolute_base_file = os.path.join(tempdir,
                                               self.cleaned_data["base_file"].name)
-        return tempdir, absolute_base_file, file_type
+        return tempdir, absolute_base_file
+
+    def get_type_and_size(self):
+        file = self.cleaned_data['base_file']
+        filename = file.name
+        extension = os.path.splitext(filename)[1]
+        file_type = None
+        if extension.lower() == '.osm':
+            file_type = ".osm"
+        elif extension.lower() == '.csv':
+            file_type = ".csv"
+        elif zipfile.is_zipfile(self.cleaned_data['base_file']):
+            file_type = ".zip"
+        else:
+            file_type = ".shp"
+
+        return file.size, file_type
 
 
 class NewLayerUploadForm(LayerUploadForm):

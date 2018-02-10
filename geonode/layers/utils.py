@@ -725,3 +725,15 @@ def create_thumbnail(instance, thumbnail_remote_url, thumbnail_create_url=None, 
     if image is not None:
         filename = 'layer-%s-thumb.png' % instance.uuid
         instance.save_thumbnail(filename, image=image)
+
+def file_size_with_ext(file_size):
+    if file_size < 1024:
+        f_size = str(file_size) + ' Byte'
+    elif file_size < 1048576:
+        f_size = str(round(file_size / 1024.0, 2)) + ' KB'
+    elif file_size < 1073741824:
+        f_size = str(round(file_size / 1048576.0, 2)) + ' MB'
+    else:
+        f_size = str(round(file_size / 1073741824.0, 2)) + ' GB'
+
+    return f_size

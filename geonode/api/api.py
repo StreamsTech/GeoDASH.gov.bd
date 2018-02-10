@@ -71,6 +71,7 @@ from .authorization import GeoNodeAuthorization
 from geonode.layers.views import backupCurrentVersion
 from geonode.geoserver.helpers import gs_catalog, cascading_delete
 from geonode.layers.utils import unzip_file
+from  geonode.layers.utils import file_size_with_ext
 
 from geonode.layers.models import Attribute
 
@@ -467,7 +468,8 @@ class LayerUpload(TypeFilteredResource):
                         metadata_uploaded_preserve=form.cleaned_data["metadata_uploaded_preserve"]
                     )
                     file_size, file_type = form.get_type_and_size()
-                    saved_layer.file_size = file_size
+                    f_size = file_size_with_ext(file_size)
+                    saved_layer.file_size = f_size
                     saved_layer.file_type = file_type
                     saved_layer.current_version = 1
                     saved_layer.save()

@@ -106,6 +106,17 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+            name='LayerVersionModel',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('version', models.FloatField(null=True, blank=True)),
+                ('version_name', models.CharField(max_length=400, null=True, blank=True)),
+                ('date_created', models.DateTimeField(auto_now_add=True)),
+                ('date_updated', models.DateTimeField(auto_now=True)),
+                ('layer', models.ForeignKey(blank=True, to='layers.Layer', null=True)),
+            ],
+        ),
+        migrations.CreateModel(
             name='Style',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),

@@ -40,7 +40,7 @@ from actstream.models import Action
 from guardian.shortcuts import get_objects_for_user
 from tastypie.utils.mime import build_content_type
 
-from geonode.layers.models import Layer, Attribute
+from geonode.layers.models import Layer, Attribute, LayerVersionModel
 from geonode.maps.models import Map
 from geonode.documents.models import Document
 from geonode.base.models import ResourceBase
@@ -1088,3 +1088,22 @@ class LayerAttributeApi(ModelResource):
 
     def dehydrate_date_created(self, bundle):
         return bundle.obj.date_created.strftime('%b %d %Y  %H:%M:%S ')
+
+
+class LayerVersionAPI(ModelResource):
+    """
+    this api gives all the available version details
+    for a given layer
+    header is: layer_id
+    exm: http://localhost:8000/api/layer-version-api/?layer_id=49
+    """
+    class Meta:
+        queryset = LayerVersionModel.objects.all()
+        resource_name = 'layer-version-api'
+        allowed_method = 'get'
+        excludes = ['version_path',]
+
+    def get_object_list(self, request):
+        layer_id = request.GET.get('layer_id')
+        layer = Layer.objects.get(id=layer_id)
+        return LayerVersionModel.objects.filter(layer=layer)

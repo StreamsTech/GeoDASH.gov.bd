@@ -477,7 +477,10 @@ class CommonModelApi(ModelResource):
             'detail_url',
             'rating',
             'featured',
-            'resource_type'
+            'resource_type',
+            'download_count',
+            'file_size',
+            'file_type'
         ]
 
         if isinstance(

@@ -862,16 +862,15 @@ class LayerDownloadCountApi(TypeFilteredResource):
         if request.method == 'POST':
             out = {'success': False}
 
-            layer_id = json.loads(request.body).get('resource_id')
+            layer_id = json.loads(request.body).get('layer_id')
 
             if layer_id:
                 try:
-                    resource = Layer.objects.get(pk=layer_id)
+                    layer = Layer.objects.get(pk=layer_id)
                 except Layer.DoesNotExist:
                     status_code = 404
                     out['errors'] = 'layer does not exist'
                 else:
-                    layer = Layer.objects.get(id=layer_id)
                     layer.download_count = layer.download_count + 1
                     layer.save()
                     out['success'] = 'True'

@@ -101,8 +101,8 @@ class Layer(ResourceBase):
     name = models.CharField(max_length=128)
     typename = models.CharField(max_length=128, null=True, blank=True)
 
-    download_count = models.IntegerField(null=True, blank=True)
-    file_size = models.FloatField(null=True, blank=True)
+    download_count = models.IntegerField(null=True, blank=True, default=0)
+    file_size = models.IntegerField(null=True, blank=True, default=0)
     file_type = models.CharField(max_length=200, blank=True, null=True)
 
     is_mosaic = models.BooleanField(default=False)
